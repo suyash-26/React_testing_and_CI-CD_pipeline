@@ -10,9 +10,9 @@ describe("Testing Greeting Component", ()=>{
         expect(text).toBeInTheDocument();
     })
 
-    it("should render name it name prop is passed", ()=>{
-        render(<Greeting name={"Sakshi"}/>);
-        const text = screen.getByText(/Sakshi/i);
+    it("should render name it some name prop is passed", ()=>{
+        render(<Greeting name={"Rahul"}/>);
+        const text = screen.getByText(/Rahul/i);
         expect(text).toBeInTheDocument();
     })
 })
