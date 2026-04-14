@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import Counter from "./Counter";
 import userEvent from "@testing-library/user-event";
 
