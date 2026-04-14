@@ -26,10 +26,10 @@ export default function ReducerLogin() {
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="email">Email</label>
-      <input id="email" onChange={(e) => setEmail(e.target.value)} />
+      <input id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
 
       <label htmlFor="password">Password</label>
-      <input id="password" type="password" onChange={(e) => setPassword(e.target.value)} />
+      <input id="password" value={password} type="password" onChange={(e) => setPassword(e.target.value)} />
 
       <button type="submit">Login</button>
     </form>

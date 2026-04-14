@@ -30,6 +30,7 @@ export default function Login() {
       setSuccess(true);
     } catch (err) {
       setError("Invalid credentials");
+      console.log(err);
     } finally {
       setLoading(false);
     }
