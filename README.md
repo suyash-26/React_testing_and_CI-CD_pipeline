@@ -470,3 +470,268 @@ Monitor
 ```
 
 
+now we move from **“basic CI” → real-world CI/CD system** 🚀
+This is where most people stop, and where you start standing out.
+
+---
+
+# 🧠 What we’re building now
+
+Right now your system is:
+
+```text
+PR → CI → Merge → Deploy to production
+```
+
+👉 Problem:
+
+* Every merge = production deploy ❌
+* Risky
+
+---
+
+# 🎯 Goal (Next Level CI/CD)
+
+```text
+Feature → PR → CI →
+   ↓
+Merge to develop → Deploy to STAGING
+   ↓
+Verify
+   ↓
+Merge to main → Deploy to PRODUCTION
+```
+
+---
+
+# 🧱 Step 1: Introduce `develop` branch
+
+---
+
+## 🔧 Create it
+
+```bash
+git checkout main
+git pull origin main
+git checkout -b develop
+git push origin develop
+```
+
+---
+
+## 🧠 Now your branches:
+
+```text
+main → production
+develop → staging
+feature/* → development
+```
+
+---
+
+# ⚙️ Step 2: Update CI trigger (important)
+
+Modify your workflow:
+
+```yaml
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+```
+
+---
+
+## 🧠 What this does:
+
+| Action         | Result  |
+| -------------- | ------- |
+| PR → develop   | CI runs |
+| PR → main      | CI runs |
+| Push → develop | CI runs |
+| Push → main    | CI runs |
+
+---
+
+# 🌍 Step 3: Setup Netlify environments
+
+You’ll create **2 sites**:
+
+---
+
+## 🟡 1. Staging Site
+
+* Connect to GitHub repo
+* Branch: `develop`
+
+👉 Deploys automatically when:
+
+```text
+code merges into develop
+```
+
+---
+
+## 🟢 2. Production Site
+
+* Same repo
+* Branch: `main`
+
+👉 Deploys when:
+
+```text
+code merges into main
+```
+
+---
+
+# 🔥 Final deployment flow
+
+```text
+feature → PR → develop
+   ↓
+CI passes
+   ↓
+Merge → develop
+   ↓
+Netlify STAGING deploy 🚀
+   ↓
+Test manually
+   ↓
+PR → main
+   ↓
+CI passes
+   ↓
+Merge → main
+   ↓
+Netlify PRODUCTION deploy 🚀
+```
+
+---
+
+# 🧠 Why this is powerful
+
+---
+
+## Before:
+
+```text
+Bug → merged → users affected
+```
+
+---
+
+## Now:
+
+```text
+Bug → caught in staging → users safe
+```
+
+---
+
+# 🧪 Step 4: Your new workflow (what YOU do)
+
+---
+
+## 🔁 Feature development
+
+```bash
+git checkout develop
+git pull origin develop
+git checkout -b feature/login-fix
+```
+
+---
+
+## 📤 Push
+
+```bash
+git push origin feature/login-fix
+```
+
+---
+
+## 🔀 PR → develop
+
+👉 CI runs
+👉 Merge after success
+
+---
+
+## 🧪 Test on staging
+
+👉 Open staging URL (Netlify)
+
+---
+
+## 🔀 PR → main
+
+👉 After verification
+
+---
+
+## 🚀 Production deploy
+
+---
+
+# 🔒 Step 5: Branch protection (important)
+
+---
+
+## Protect BOTH:
+
+### main:
+
+* Require CI ✅
+* Require PR ✅
+
+### develop:
+
+* Require CI ✅
+
+---
+
+# 🧠 Mental model upgrade
+
+---
+
+## OLD:
+
+```text
+CI = testing
+```
+
+---
+
+## NEW:
+
+```text
+CI = validation gate
+CD = controlled release system
+```
+
+---
+
+# 🚨 Common mistakes (don’t do these)
+
+---
+
+## ❌ Direct push to main
+
+---
+
+## ❌ Skipping staging
+
+---
+
+## ❌ Same env for staging & prod
+
+---
+
+## ❌ Not testing staging
+
+
+
+
+
